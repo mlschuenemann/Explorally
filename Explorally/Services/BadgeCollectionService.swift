@@ -34,11 +34,14 @@ class BadgeCollectionService {
     }
     
     // Core logic to "collect" a badge for a given sight.
-    private func collectBadge(for sightID: UUID) {
-        let newBadge = Badge(sightID: sightID, collectedAt: Date(), rarity: determineBadgeRarity(for: sightID))
-        // Here you would typically save the badge to your database or update a view model.
-        print("Badge collected for sight \(sightID): \(newBadge)")
-    }
+   private func collectBadge(for sightID: UUID) {
+    let newBadge = Badge(sightID: sightID, collectedAt: Date(), rarity: determineBadgeRarity(for: sightID))
+    // Optionally save the badge to your database here.
+    print("Badge collected for sight \(sightID): \(newBadge)")
+    // Notify subscribers that a badge has been collected.
+    NotificationCenter.default.post(name: .badgeCollected, object: newBadge)
+}
+
     
     // Example function to determine badge rarity. This could be based on more advanced logic.
     private func determineBadgeRarity(for sightID: UUID) -> BadgeRarity {
